@@ -1,42 +1,31 @@
 
+
 const baseUrl = 'http://localhost:3030/jsonstore';
 
 export const create = async (data) => {
-    const responce = await fetch (`${baseUrl}/booking`, {
+    const response = await fetch(`${baseUrl}/booking`, {
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     });
 
-    const result = await responce.json();
-    return result
+    const result = await response.json();
+    return result;
 };
 
 export const getBookingsForDate = async (date) => {
-    try {
-        // Fetch all bookings
-        const response = await fetch(`${baseUrl}/booking`);
-        const result = await response.json();
-        console.log('All Bookings:', result);
+    // Ensure the date is in ISO format without time (UTC)
+    const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
-        // Convert result to an array of bookings
-        const bookingsArray = Object.values(result);
+    const response = await fetch(`${baseUrl}/booking?date=${formattedDate}`);
+    const result = await response.json();
 
-        // Extract the date part from the selected date
-        const selectedDateISO = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    // Convert the object to an array and filter by the exact date
+    const bookingsArray = Object.values(result).filter(booking => 
+        booking.date.startsWith(formattedDate)
+    );
 
-        // Filter bookings for the selected date
-        const bookingsForDate = bookingsArray.filter(booking => {
-            const bookingDateISO = new Date(booking.date).toISOString().split('T')[0];
-            return bookingDateISO === selectedDateISO;
-        });
-
-        console.log('Bookings for Selected Date:', bookingsForDate);
-        return bookingsForDate;
-    } catch (error) {
-        console.error('Error fetching bookings:', error);
-        return [];
-    }
+    return bookingsArray;
 };

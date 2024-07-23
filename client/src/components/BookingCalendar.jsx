@@ -1,4 +1,3 @@
-// File: src/components/BookingCalendar.jsx
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -14,17 +13,23 @@ const services = [
 ];
 
 const timeSlots = [
-    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', 
+    '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM',
     '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'
 ];
 
 export default function BookingCalendar() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    console.log(selectedDate)
+    const initialDate = new Date();
+    initialDate.setDate(initialDate.getDate() - 1);
+
+    const [selectedDate, setSelectedDate] = useState(initialDate);
     const [selectedServices, setSelectedServices] = useState([]);
     const [bookedSlots, setBookedSlots] = useState([]);
     const [allSlotsBooked, setAllSlotsBooked] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Start of day in local time
+    const todayUTC = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -34,9 +39,8 @@ export default function BookingCalendar() {
                 const booked = result.map(booking => booking.time);
 
                 const allBooked = timeSlots.every(slot => booked.includes(slot));
-                console.log(allBooked)
                 setBookedSlots(booked);
-                // setAllSlotsBooked(allBooked);
+                setAllSlotsBooked(allBooked);
             } catch (error) {
                 console.error('Error fetching bookings:', error);
                 setBookedSlots([]);
@@ -50,7 +54,14 @@ export default function BookingCalendar() {
     }, [selectedDate]);
 
     const onDateChange = (date) => {
-        setSelectedDate(date);
+        // Convert date to local time and ensure it's not before today
+        const localDate = new Date(date);
+        localDate.setHours(0, 0, 0, 0);
+        const localDateUTC = localDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+        if (localDateUTC >= todayUTC) {
+            setSelectedDate(date);
+        }
     };
 
     const onServiceChange = (event) => {
@@ -76,28 +87,42 @@ export default function BookingCalendar() {
 
         try {
             const result = await create(bookingData);
-            const newBookedSlots = [...bookedSlots, slot];
-            const allBooked = timeSlots.every(slot => newBookedSlots.includes(slot));
-
-            setBookedSlots(newBookedSlots);
-            setAllSlotsBooked(allBooked);
+            // Re-fetch bookings to ensure the state is up-to-date
+            await fetchBookings();
             alert(`Booking confirmed for ${selectedDate.toDateString()} at ${slot}`);
         } catch (error) {
             console.error('Error creating booking:', error);
             alert('Failed to book slot. Please try again.');
         }
     };
-    console.log(allSlotsBooked)
+
+    const fetchBookings = async () => {
+        setLoading(true);
+        try {
+            const result = await getBookingsForDate(selectedDate);
+            const booked = result.map(booking => booking.time);
+            const allBooked = timeSlots.every(slot => booked.includes(slot));
+            setBookedSlots(booked);
+            setAllSlotsBooked(allBooked);
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            setBookedSlots([]);
+            setAllSlotsBooked(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="booking-calendar">
             <div className="service-selection">
                 <h2>Select Services</h2>
                 {services.map(service => (
                     <div key={service}>
-                        <input 
-                            type="checkbox" 
-                            id={service} 
-                            value={service} 
+                        <input
+                            type="checkbox"
+                            id={service}
+                            value={service}
                             onChange={onServiceChange}
                         />
                         <label htmlFor={service}>{service}</label>
@@ -107,6 +132,7 @@ export default function BookingCalendar() {
             <Calendar
                 onChange={onDateChange}
                 value={selectedDate}
+                minDate={today} // Disable past dates but allow today
             />
             <div className="time-slots">
                 <h2>Available Slots on {selectedDate.toDateString()}</h2>
@@ -129,7 +155,6 @@ export default function BookingCalendar() {
                     </div>
                 )}
             </div>
-            
         </div>
     );
 }
