@@ -10,13 +10,14 @@ import Testimonial from "./components/Testimonial.jsx";
 import NotFound from "./components/NotFound.jsx";
 import SignIn from "./components/SignIn.jsx";
 import Registration from "./components/Registration.jsx";
+import BookingCalendar from "./components/BookingCalendar.jsx";
 
 function App() { 
 
 	return (
 		<>
 			<Header/>
-
+			{/* <BookingCalendar /> */}
 			<Routes>
 				<Route path="/" element={<Carousel />} />
 				<Route path="/about" element={<About />} />
@@ -24,6 +25,7 @@ function App() {
 				<Route path="/open" element={<WorkingHour />} />
 				<Route path="/testimonial" element={<Testimonial />} />
 				<Route path="/contact" element={<Contact />} />
+				<Route path="/calendar" element={<BookingCalendar />} />
 				{/* <Route path="/registration" element={<Registration />} /> */}
 				<Route path="*" element={<NotFound />} />
 			</Routes>

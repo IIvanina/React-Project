@@ -1,0 +1,38 @@
+/* src/components/BookingCalendar.css */
+
+.booking-calendar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.time-slots {
+    margin-top: 20px;
+}
+
+.time-slots div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.time-slots span {
+    margin: 5px 0;
+}
+
+.time-slots button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.time-slots button:hover {
+    background-color: #0056b3;
+}

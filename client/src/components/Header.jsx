@@ -37,9 +37,12 @@ export default function Header({
                             <Nav.Link as={Link} to="contact">Contact</Nav.Link>
                         </Nav>
                         <Nav>
+                            {/* <Nav.Link as={Link} to="#" onClick={() => setModalShow(true)}>Login</Nav.Link> */}
+                            <Nav.Link as={Link} to="calendar" >Login</Nav.Link>
                             <Button variant="primary" onClick={() => setModalShow(true)}>
                                 Appointment <i className="fa fa-arrow-right ms-3"></i>
                             </Button>
+                            
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
