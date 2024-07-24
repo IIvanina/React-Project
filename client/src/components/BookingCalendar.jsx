@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './BookingCalendar.css';
-import { create, getBookingsForDate } from '../services/bookingService';
+import styles from '../components/BookingCalendar.module.css';
+import * as bookingService from '../services/bookingService';
 
 const services = [
-    'Haircut',
-    'Shampoo',
-    'Nail Trim',
-    'Ear Cleaning',
-    'Teeth Brushing'
+    { name: 'Haircut', price: 20 },
+    { name: 'Shampoo', price: 10 },
+    { name: 'Nail Trim', price: 15 },
+    { name: 'Ear Cleaning', price: 12 },
+    { name: 'Teeth Brushing', price: 18 }
 ];
 
 const timeSlots = [
@@ -27,6 +28,8 @@ export default function BookingCalendar() {
     const [allSlotsBooked, setAllSlotsBooked] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const navigate = useNavigate();
+
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of day in local time
     const todayUTC = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
@@ -35,7 +38,7 @@ export default function BookingCalendar() {
         const fetchBookings = async () => {
             setLoading(true);
             try {
-                const result = await getBookingsForDate(selectedDate);
+                const result = await bookingService.getBookingsForDate(selectedDate);
                 const booked = result.map(booking => booking.time);
 
                 const allBooked = timeSlots.every(slot => booked.includes(slot));
@@ -66,10 +69,12 @@ export default function BookingCalendar() {
 
     const onServiceChange = (event) => {
         const { value, checked } = event.target;
+        const service = services.find(service => service.name === value);
+
         if (checked) {
-            setSelectedServices([...selectedServices, value]);
+            setSelectedServices([...selectedServices, service]);
         } else {
-            setSelectedServices(selectedServices.filter(service => service !== value));
+            setSelectedServices(selectedServices.filter(s => s.name !== value));
         }
     };
 
@@ -86,10 +91,12 @@ export default function BookingCalendar() {
         };
 
         try {
-            const result = await create(bookingData);
+            const result = await bookingService.create(bookingData);
             // Re-fetch bookings to ensure the state is up-to-date
             await fetchBookings();
+            
             alert(`Booking confirmed for ${selectedDate.toDateString()} at ${slot}`);
+            navigate('/bookings');
         } catch (error) {
             console.error('Error creating booking:', error);
             alert('Failed to book slot. Please try again.');
@@ -99,7 +106,7 @@ export default function BookingCalendar() {
     const fetchBookings = async () => {
         setLoading(true);
         try {
-            const result = await getBookingsForDate(selectedDate);
+            const result = await bookingService.getBookingsForDate(selectedDate);
             const booked = result.map(booking => booking.time);
             const allBooked = timeSlots.every(slot => booked.includes(slot));
             setBookedSlots(booked);
@@ -114,18 +121,20 @@ export default function BookingCalendar() {
     };
 
     return (
-        <div className="booking-calendar">
-            <div className="service-selection">
-                <h2>Select Services</h2>
+        <div className={styles.bookingCalendar}>
+            <div className={styles.serviceSelection}>
+                <h2>Select Services:</h2>
                 {services.map(service => (
-                    <div key={service}>
+                    <div key={service.name}>
                         <input
                             type="checkbox"
-                            id={service}
-                            value={service}
+                            id={service.name}
+                            value={service.name}
                             onChange={onServiceChange}
                         />
-                        <label htmlFor={service}>{service}</label>
+                        <label className={styles.serviceLabel} htmlFor={service.name}>
+                            {service.name} - ${service.price}
+                        </label>
                     </div>
                 ))}
             </div>
@@ -134,14 +143,14 @@ export default function BookingCalendar() {
                 value={selectedDate}
                 minDate={today} // Disable past dates but allow today
             />
-            <div className="time-slots">
+            <div className={styles.timeSlots}>
                 <h2>Available Slots on {selectedDate.toDateString()}</h2>
                 {loading ? (
                     <p>Loading...</p>
                 ) : allSlotsBooked ? (
                     <p>All slots are booked for this date.</p>
                 ) : (
-                    <div className="slots">
+                    <div className={styles.slots}>
                         {timeSlots.map((slot) => (
                             <span key={slot}>
                                 <button

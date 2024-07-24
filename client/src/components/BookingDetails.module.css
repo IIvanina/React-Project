@@ -1,0 +1,14 @@
+.detailsBox {
+    background-color: #191C24;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.timeDetails {
+    list-style: none;
+    color: #EB1616;
+    font-size: 20px;
+    padding: 0px;
+    margin-bottom: 20px;
+}

@@ -1,6 +1,4 @@
-/* src/components/BookingCalendar.css */
-
-.booking-calendar {
+.bookingCalendar {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -9,22 +7,22 @@
     justify-content: space-evenly;
 }
 
-.time-slots {
+.timeSlots {
     margin-top: 20px;
 }
 
-.time-slots div {
+.timeSlots div {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
 }
 
-.time-slots span {
+.timeSlots span {
     margin: 5px 0;
 }
 
-.time-slots button {
+.timeSlots button {
     padding: 10px;
     border: none;
     background-color: #007bff;
@@ -34,12 +32,30 @@
     transition: background-color 0.3s;
 }
 
-.time-slots button:hover:not(:disabled) {
+.timeSlots button:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
-.time-slots button:disabled {
+.timeSlots button:disabled {
     background-color: #cccccc;
     color: #666666;
     cursor: not-allowed;
+}
+
+.serviceLabel {
+    font-size: large;
+    color: #EB1616;
+    padding-left: 5px;
+}
+
+.serviceSelection div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.serviceSelection input {
+    width: 25px;
+    height: 25px;
 }

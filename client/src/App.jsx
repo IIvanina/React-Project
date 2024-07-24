@@ -11,6 +11,7 @@ import NotFound from "./components/NotFound.jsx";
 import SignIn from "./components/SignIn.jsx";
 import Registration from "./components/Registration.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
+import MyBookings from "./components/MyBookings.jsx";
 
 function App() { 
 
@@ -26,6 +27,7 @@ function App() {
 				<Route path="/testimonial" element={<Testimonial />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/calendar" element={<BookingCalendar />} />
+				<Route path="/bookings" element={<MyBookings />} />
 				{/* <Route path="/registration" element={<Registration />} /> */}
 				<Route path="*" element={<NotFound />} />
 			</Routes>
