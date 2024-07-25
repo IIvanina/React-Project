@@ -5,6 +5,8 @@ import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from '../components/Modal.module.css';
 import useForm from '../hooks/useForm.js';
+import AuthContext from '../contexts/authContext.js';
+import { useContext } from 'react';
 
 const LoginFormKeys = {
     Email: 'email',
@@ -12,8 +14,8 @@ const LoginFormKeys = {
 }
 
 const SignIn = forwardRef((props, ref) => {
-    const { show, onHide, onCreateAccountClick, loginSubmitHandler } = props;
-
+    const { show, onHide, onCreateAccountClick } = props;
+    const {loginSubmitHandler} = useContext(AuthContext);
     const { values, onChange, onSubmit} = useForm( loginSubmitHandler, {
         [LoginFormKeys.Email]: '',
         [LoginFormKeys.Password]: '',

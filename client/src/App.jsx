@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Footer from "./components/Footer.jsx";
 import Carousel from "./components/Carousel.jsx";
 import Header from "./components/Header.jsx";
@@ -13,35 +13,38 @@ import Registration from "./components/Registration.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
 import { useState } from "react";
+import AuthContext from "./contexts/authContext.js";
 
-function App() { 
-	const [ auth, setAuth] = useState({});
+function App() {
+	const [auth, setAuth] = useState({});
 
 	const loginSubmitHandler = (values) => {
 		console.log(values)
 	};
 
 	return (
-		<>
-			<Header loginSubmitHandler={loginSubmitHandler} />
-			{/* <BookingCalendar /> */}
-			<Routes>
-				<Route path="/" element={<Carousel />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/services" element={<Services />} />
-				<Route path="/open" element={<WorkingHour />} />
-				<Route path="/testimonial" element={<Testimonial />} />
-				<Route path="/contact" element={<Contact />} />
-				<Route path="/calendar" element={<BookingCalendar />} />
-				<Route path="/bookings" element={<MyBookings />} />
-				<Route path="/login" element={<SignIn />} />
-				{/* <Route path="/registration" element={<Registration />} /> */}
-				<Route path="*" element={<NotFound />} />
-			</Routes>
+		<AuthContext.Provider value={{loginSubmitHandler}}>
+			<>
+				<Header />
+				{/* <BookingCalendar /> */}
+				<Routes>
+					<Route path="/" element={<Carousel />} />
+					<Route path="/about" element={<About />} />
+					<Route path="/services" element={<Services />} />
+					<Route path="/open" element={<WorkingHour />} />
+					<Route path="/testimonial" element={<Testimonial />} />
+					<Route path="/contact" element={<Contact />} />
+					<Route path="/calendar" element={<BookingCalendar />} />
+					<Route path="/bookings" element={<MyBookings />} />
+					<Route path="/login" element={<SignIn />} />
+					{/* <Route path="/registration" element={<Registration />} /> */}
+					<Route path="*" element={<NotFound />} />
+				</Routes>
 
-			<Footer />
-			<SignIn />
-		</>
+				<Footer />
+				<SignIn />
+			</>
+		</AuthContext.Provider>
 	);
 }
 

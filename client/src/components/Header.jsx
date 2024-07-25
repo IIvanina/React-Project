@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef} from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -7,10 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import SignIn from './SignIn.jsx';
 import Registration from './Registration.jsx';
 
-
 export default function Header({
-    modalRegistration,
-    loginSubmitHandler,
+    // modalRegistration,
+    
 }) {
     
     const [modalShow, setModalShow] = useState(false);
@@ -55,7 +54,6 @@ export default function Header({
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 onCreateAccountClick={handleCreateAccountClick}
-                loginSubmitHandler={ loginSubmitHandler }
             />
             <Registration 
                 ref={registrationRef}
