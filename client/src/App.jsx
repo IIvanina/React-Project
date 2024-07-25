@@ -12,12 +12,18 @@ import SignIn from "./components/SignIn.jsx";
 import Registration from "./components/Registration.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
+import { useState } from "react";
 
 function App() { 
+	const [ auth, setAuth] = useState({});
+
+	const loginSubmitHandler = (values) => {
+		console.log(values)
+	};
 
 	return (
 		<>
-			<Header/>
+			<Header loginSubmitHandler={loginSubmitHandler} />
 			{/* <BookingCalendar /> */}
 			<Routes>
 				<Route path="/" element={<Carousel />} />
@@ -28,6 +34,7 @@ function App() {
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/calendar" element={<BookingCalendar />} />
 				<Route path="/bookings" element={<MyBookings />} />
+				<Route path="/login" element={<SignIn />} />
 				{/* <Route path="/registration" element={<Registration />} /> */}
 				<Route path="*" element={<NotFound />} />
 			</Routes>

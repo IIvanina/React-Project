@@ -10,6 +10,7 @@ import Registration from './Registration.jsx';
 
 export default function Header({
     modalRegistration,
+    loginSubmitHandler,
 }) {
     
     const [modalShow, setModalShow] = useState(false);
@@ -40,7 +41,7 @@ export default function Header({
                             {/* <Nav.Link as={Link} to="#" onClick={() => setModalShow(true)}>Login</Nav.Link> */}
                             <Nav.Link as={Link} to="calendar" >Login</Nav.Link>
                             <Nav.Link as={Link} to="bookings" >My Bookings</Nav.Link>
-                            <Button variant="primary" onClick={() => setModalShow(true)}>
+                            <Button as={Link} to="login" variant="primary" onClick={() => setModalShow(true)}>
                                 Appointment <i className="fa fa-arrow-right ms-3"></i>
                             </Button>
                             
@@ -54,6 +55,7 @@ export default function Header({
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 onCreateAccountClick={handleCreateAccountClick}
+                loginSubmitHandler={ loginSubmitHandler }
             />
             <Registration 
                 ref={registrationRef}

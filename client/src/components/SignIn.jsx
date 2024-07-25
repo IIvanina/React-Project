@@ -6,12 +6,17 @@ import { Link } from 'react-router-dom';
 import styles from '../components/Modal.module.css';
 import useForm from '../hooks/useForm.js';
 
-const SignIn = forwardRef((props, ref) => {
-    const { show, onHide, onCreateAccountClick } = props;
+const LoginFormKeys = {
+    Email: 'email',
+    Password: 'password',
+}
 
-    const { values, onChange, onSubmit} = useForm({
-        email: '',
-        password: '',
+const SignIn = forwardRef((props, ref) => {
+    const { show, onHide, onCreateAccountClick, loginSubmitHandler } = props;
+
+    const { values, onChange, onSubmit} = useForm( loginSubmitHandler, {
+        [LoginFormKeys.Email]: '',
+        [LoginFormKeys.Password]: '',
     });
 
     return (
@@ -36,9 +41,9 @@ const SignIn = forwardRef((props, ref) => {
                         <Form.Control 
                             type="email" 
                             placeholder="Enter email"
-                            name="email"
+                            name={LoginFormKeys.Email}
                             onChange={onChange}
-                            value={values.email}
+                            value={values[LoginFormKeys.Email]}
                          />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -46,9 +51,9 @@ const SignIn = forwardRef((props, ref) => {
                         <Form.Control 
                             type="password" 
                             placeholder="Password"
-                            name='password'
+                            name={LoginFormKeys.Password}
                             onChange={onChange}
-                            value={values.password}
+                            value={values[LoginFormKeys.Password]}
                          />
                     </Form.Group>
                     <Button variant="primary" type="submit">

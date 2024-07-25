@@ -46,6 +46,8 @@
     font-size: large;
     color: #EB1616;
     padding-left: 5px;
+    text-transform: uppercase;
+    font-weight: 800;
 }
 
 .serviceSelection div {
