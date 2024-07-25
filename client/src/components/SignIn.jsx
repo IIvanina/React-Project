@@ -4,9 +4,15 @@ import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from '../components/Modal.module.css';
+import useForm from '../hooks/useForm.js';
 
 const SignIn = forwardRef((props, ref) => {
     const { show, onHide, onCreateAccountClick } = props;
+
+    const { values, onChange, onSubmit} = useForm({
+        email: '',
+        password: '',
+    });
 
     return (
         <Modal
@@ -24,14 +30,26 @@ const SignIn = forwardRef((props, ref) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
-                <Form>
+                <Form onSubmit={onSubmit}>
                     <Form.Group className="mb-3" controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control 
+                            type="email" 
+                            placeholder="Enter email"
+                            name="email"
+                            onChange={onChange}
+                            value={values.email}
+                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control 
+                            type="password" 
+                            placeholder="Password"
+                            name='password'
+                            onChange={onChange}
+                            value={values.password}
+                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Submit

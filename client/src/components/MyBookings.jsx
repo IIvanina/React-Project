@@ -22,7 +22,7 @@ export default function MyBookings() {
 
     return (
         <div className='text-center mx-auto mb-5 mt-5 wow fadeInUp'>
-            <h2 class="text-uppercase">My Bookings</h2>
+            <h2 className="text-uppercase">My Bookings</h2>
             <ul>
                 {bookings.map(booking => (
                     <BookingDetails key={booking._id} {...booking} />
