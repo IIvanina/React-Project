@@ -1,4 +1,10 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import AuthContext from "./contexts/authContext.js";
+import * as authService from "./services/authService.js"
+import Path from "../src/path.js";
+
 import Footer from "./components/Footer.jsx";
 import Carousel from "./components/Carousel.jsx";
 import Header from "./components/Header.jsx";
@@ -12,15 +18,17 @@ import SignIn from "./components/SignIn.jsx";
 import Registration from "./components/Registration.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
-import { useState } from "react";
-import AuthContext from "./contexts/authContext.js";
 
 function App() {
 	const [auth, setAuth] = useState({});
-
-	const loginSubmitHandler = (values) => {
+	const navigate = useNavigate();
+	const loginSubmitHandler = async (values) => {
 		console.log(values)
-	};
+
+		const result = await authService.login(values.email, values.password);
+		setAuth(result)
+		navigate(Path.Home)
+	}	
 
 	return (
 		<AuthContext.Provider value={{loginSubmitHandler}}>
