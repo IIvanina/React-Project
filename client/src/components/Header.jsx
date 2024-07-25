@@ -1,26 +1,29 @@
 import { Link } from 'react-router-dom';
-import { useState, useRef} from 'react';
+import { useState, useRef, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SignIn from './SignIn.jsx';
 import Registration from './Registration.jsx';
+import AuthContext from '../contexts/authContext.js';
 
-export default function Header({
-    // modalRegistration,
-    
-}) {
-    
+export default function Header() {
     const [modalShow, setModalShow] = useState(false);
     const [showModalReg, setShowModalReg] = useState(false);
 
     const signInRef = useRef(null);
     const registrationRef = useRef(null);
 
+    const { loginSubmitHandler, isAuthenticated, username, logoutHandler } = useContext(AuthContext);
+
     const handleCreateAccountClick = () => {
         setModalShow(false);
         setShowModalReg(true);
+    };
+
+    const handleLoginSubmit = async (values) => {
+        await loginSubmitHandler(values, () => setModalShow(false));
     };
 
     return (
@@ -32,18 +35,23 @@ export default function Header({
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            <Nav.Link as={Link} to="about">About</Nav.Link>
-                            <Nav.Link as={Link} to="services">Services</Nav.Link>
-                            <Nav.Link as={Link} to="contact">Contact</Nav.Link>
+                            <Nav.Link as={Link} to="/about">About</Nav.Link>
+                            <Nav.Link as={Link} to="/services">Services</Nav.Link>
+                            <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
                         </Nav>
                         <Nav>
-                            {/* <Nav.Link as={Link} to="#" onClick={() => setModalShow(true)}>Login</Nav.Link> */}
-                            <Nav.Link as={Link} to="calendar" >Login</Nav.Link>
-                            <Nav.Link as={Link} to="bookings" >My Bookings</Nav.Link>
-                            <Button as={Link} to="login" variant="primary" onClick={() => setModalShow(true)}>
-                                Appointment <i className="fa fa-arrow-right ms-3"></i>
-                            </Button>
-                            
+                            {isAuthenticated ? (
+                                <>
+                                    <Nav.Link as={Link} to="/bookings">My Bookings</Nav.Link>
+                                    <Nav.Link as={Link} to="/" onClick={logoutHandler}>Logout</Nav.Link>
+                                </>
+                            ) : (
+                                
+                                    <Nav.Link as={Link} to="/login" onClick={() => setModalShow(true)}>Login</Nav.Link>
+                            )}
+                            <Button variant="primary" onClick={() => setModalShow(true)}>
+                                        Appointment <i className="fa fa-arrow-right ms-3"></i>
+                                    </Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -54,6 +62,7 @@ export default function Header({
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 onCreateAccountClick={handleCreateAccountClick}
+                loginSubmitHandler={handleLoginSubmit}
             />
             <Registration 
                 ref={registrationRef}

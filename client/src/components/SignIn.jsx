@@ -15,8 +15,11 @@ const LoginFormKeys = {
 
 const SignIn = forwardRef((props, ref) => {
     const { show, onHide, onCreateAccountClick } = props;
-    const {loginSubmitHandler} = useContext(AuthContext);
-    const { values, onChange, onSubmit} = useForm( loginSubmitHandler, {
+    const { loginSubmitHandler } = useContext(AuthContext);
+    
+    const { values, onChange, onSubmit } = useForm(async (values) => {
+        await loginSubmitHandler(values, onHide);
+    }, {
         [LoginFormKeys.Email]: '',
         [LoginFormKeys.Password]: '',
     });
@@ -29,7 +32,6 @@ const SignIn = forwardRef((props, ref) => {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            
         >
             <Modal.Header closeButton className={styles.modalHeader}>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -46,7 +48,7 @@ const SignIn = forwardRef((props, ref) => {
                             name={LoginFormKeys.Email}
                             onChange={onChange}
                             value={values[LoginFormKeys.Email]}
-                         />
+                        />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
@@ -56,7 +58,7 @@ const SignIn = forwardRef((props, ref) => {
                             name={LoginFormKeys.Password}
                             onChange={onChange}
                             value={values[LoginFormKeys.Password]}
-                         />
+                        />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Submit
