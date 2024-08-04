@@ -34,8 +34,13 @@ function App() {
         }
     };
 
+	const registerSubmitHandler = async (values, closeModal) => {
+		console.log(values)
+	}
+
 	const values = { 
 		loginSubmitHandler,
+		registerSubmitHandler,
 		email: auth.email,
 		username: auth.username,
 		isAuthenticated: !!auth.username,
