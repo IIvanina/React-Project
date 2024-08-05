@@ -19,32 +19,27 @@ const RegisterFormKeys = {
 }
 
 const Registration = forwardRef((props, ref) => {
+    const { show, onHide } = props;
+    const { registerSubmitHandler } = useContext(AuthContext);
 
-    const {registerSubmitHandler} = useContext(AuthContext);
-    
     const [validated, setValidated] = useState(false);
 
-    const {values, onChange, onSubmit} = useForm(registerSubmitHandler, {
+    const closeModal = () => {
+        onHide();
+    };
+
+    const { values, onChange, onSubmit } = useForm(registerSubmitHandler, {
         [RegisterFormKeys.Name]: '',
         [RegisterFormKeys.Email]: '',
         [RegisterFormKeys.Password]: '',
         [RegisterFormKeys.ConfirmPassword]: '',
-    })
-
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //     }
-
-    //     setValidated(true);
-    // };
+    }, closeModal);
 
     return (
         <Modal
             ref={ref}
-            {...props}
+            show={show}
+            onHide={onHide}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -57,65 +52,57 @@ const Registration = forwardRef((props, ref) => {
             <Modal.Body className={styles.modalBody}>
                 <Form noValidate validated={validated} onSubmit={onSubmit}>
                     <Row className="mb-3">
-                        <Form.Group as={Col} md="4" >
+                        <Form.Group as={Col} md="4">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                id='name'
+                                id="name"
                                 placeholder="Name"
-                                name='name'
+                                name="name"
                                 onChange={onChange}
-                                values={values[RegisterFormKeys.Name]}
-                                // defaultValue="Mark"
+                                value={values[RegisterFormKeys.Name]}
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="4" >
+                        <Form.Group as={Col} md="4">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 required
                                 type="email"
-                                id='email'
+                                id="email"
                                 placeholder="Email"
-                                name='email'
+                                name="email"
                                 onChange={onChange}
-                                values={values[RegisterFormKeys.Email]}
-                                // defaultValue="Otto"
+                                value={values[RegisterFormKeys.Email]}
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row className="mb-3">
-                        <Form.Group as={Col} md="3" >
+                        <Form.Group as={Col} md="3">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control 
-                                type="password" 
-                                id='password'
-                                placeholder="Password"
-                                name='password'
-                                onChange={onChange}
-                                values={values[RegisterFormKeys.Password]}
-                                required 
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
-                                Please provide a valid phone.
-                            </Form.Control.Feedback> */}
-                        </Form.Group>
-                        <Form.Group as={Col} md="3" >
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control 
+                            <Form.Control
                                 type="password"
-                                id='confirm-password'
-                                placeholder="Confirm Password" 
-                                name='confirm-password'
+                                id="password"
+                                placeholder="Password"
+                                name="password"
                                 onChange={onChange}
-                                values={values[RegisterFormKeys.ConfirmPassword]}
-                                required 
+                                value={values[RegisterFormKeys.Password]}
+                                required
                             />
-                            {/* <Form.Control.Feedback type="invalid">
-                                Please provide a valid phone.
-                            </Form.Control.Feedback> */}
+                        </Form.Group>
+                        <Form.Group as={Col} md="3">
+                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                id="confirm-password"
+                                placeholder="Confirm Password"
+                                name="confirm-password"
+                                onChange={onChange}
+                                value={values[RegisterFormKeys.ConfirmPassword]}
+                                required
+                            />
                         </Form.Group>
                     </Row>
                     <Form.Group className="mb-3">
@@ -134,3 +121,4 @@ const Registration = forwardRef((props, ref) => {
 });
 
 export default Registration;
+

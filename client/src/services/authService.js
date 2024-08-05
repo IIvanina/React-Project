@@ -6,7 +6,7 @@ export const login = async (email, password) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })  // Convert the body to a JSON string
+        body: JSON.stringify({ email, password })
     });
 
     if (!response.ok) {
@@ -16,5 +16,57 @@ export const login = async (email, password) => {
     }
 
     const result = await response.json();
+    localStorage.setItem('accessToken', result.accessToken); // Store the token
     return result;
 }
+
+export const register = async (email, password) => {
+    const response = await fetch(`${baseUrl}/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    if (!response.ok) {
+        throw new Error('Registration failed');
+    }
+
+    const result = await response.json();
+    localStorage.setItem('accessToken', result.accessToken); // Store the token
+    return result;
+}
+
+export const logout = async () => {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+        console.error("No token found for logout.");
+        return; 
+    }
+
+    try {
+        const response = await fetch(`${baseUrl}/logout`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': token
+            }
+        });
+
+        if (response.status === 204) {
+            localStorage.removeItem('accessToken'); // Clear the token from local storage
+            console.log("Token removed from local storage.");
+            return {}; 
+        } else {
+            const errorMessage = await response.text();
+            console.error("Logout response not ok:", errorMessage);
+            throw new Error(`Error ${response.status}: ${errorMessage}`);
+        }
+    } catch (error) {
+        console.error("Logout failed", error);
+        throw error;
+    }
+}
+

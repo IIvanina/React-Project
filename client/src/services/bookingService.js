@@ -1,5 +1,3 @@
-
-
 const baseUrl = 'http://localhost:3030/jsonstore/booking';
 
 export const create = async (data) => {
@@ -15,9 +13,14 @@ export const create = async (data) => {
     return result;
 };
 
-export const getAllBookingsForUser = async () => {
+export const getAllBookingsForUser = async (accessToken) => {
     try {
-        const response = await fetch(baseUrl);
+        const response = await fetch(baseUrl, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+        );
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -35,9 +38,9 @@ export const getBookingsForDate = async (date) => {
     console.log(formattedDate)
     const response = await fetch(`${baseUrl}?date=${formattedDate}`);
     const result = await response.json();
-    
+
     // Convert the object to an array and filter by the exact date
-    const bookingsArray = Object.values(result).filter(booking => 
+    const bookingsArray = Object.values(result).filter(booking =>
         booking.date.startsWith(formattedDate)
     );
 
