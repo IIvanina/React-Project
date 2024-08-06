@@ -21,42 +21,65 @@ import MyBookings from "./components/MyBookings.jsx";
 import Logout from "./components/Logout.jsx";
 
 function App() {
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useState(() => {
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('userId');
+
+		return {};
+	});
     const navigate = useNavigate();
 
     const loginSubmitHandler = async (values, closeModal) => {
+		
         try {
             const result = await authService.login(values.email, values.password);
+
             setAuth(result);
+			console.log(`Login user Id ${result._id}`)
+			console.log(`Login token ${result.accessToken}`)
             localStorage.setItem('accessToken', result.accessToken);
+			localStorage.setItem('userId', result._id);
+
             closeModal();
+
             navigate(Path.Calendar);
+
         } catch (error) {
             console.error("Login failed", error);
         }
     };
 
     const registerSubmitHandler = async (values, closeModal) => {
+		
         try {
             const result = await authService.register(values.email, values.password);
-            setAuth(result);
+			
+			
             localStorage.setItem('accessToken', result.accessToken);
+			localStorage.setItem('userId', result._id);
+
             closeModal();
-            navigate(Path.Calendar);
+
+            navigate(Path.Login);
+
         } catch (error) {
             console.error("Registration failed", error);
         }
     }
 
     const logoutHandler = () => {
+
         setAuth({});
+
         localStorage.removeItem('accessToken');
+		localStorage.removeItem('userId');
     };
 
     const values = { 
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
+		// userId: auth._id,
         email: auth.email,
         username: auth.username || auth.email,
         isAuthenticated: !!auth.accessToken,
@@ -75,7 +98,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path={Path.Calendar} element={<BookingCalendar />} />
                     <Route path="/bookings" element={<MyBookings />} />
-                    <Route path="/login" element={<SignIn />} />
+                    <Route path={Path.Login} element={<SignIn />} />
                     <Route path={Path.Logout} element={<Logout />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>

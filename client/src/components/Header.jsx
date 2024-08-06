@@ -43,6 +43,7 @@ export default function Header() {
                         <Nav>
                             {isAuthenticated ? (
                                 <>  <span className='username'>{username}</span>
+                                    <Nav.Link as={Link} to={Path.Calendar}>Calendar</Nav.Link>
                                     <Nav.Link as={Link} to="/bookings">My Bookings</Nav.Link>
                                     <Nav.Link as={Link} to={Path.Logout} >Logout</Nav.Link>
                                 </>

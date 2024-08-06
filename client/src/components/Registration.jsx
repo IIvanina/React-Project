@@ -32,7 +32,7 @@ const Registration = forwardRef((props, ref) => {
         [RegisterFormKeys.Name]: '',
         [RegisterFormKeys.Email]: '',
         [RegisterFormKeys.Password]: '',
-        [RegisterFormKeys.ConfirmPassword]: '',
+        
     }, closeModal);
 
     return (
@@ -92,18 +92,7 @@ const Registration = forwardRef((props, ref) => {
                                 required
                             />
                         </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                id="confirm-password"
-                                placeholder="Confirm Password"
-                                name="confirm-password"
-                                onChange={onChange}
-                                value={values[RegisterFormKeys.ConfirmPassword]}
-                                required
-                            />
-                        </Form.Group>
+                        
                     </Row>
                     <Form.Group className="mb-3">
                         <Form.Check
