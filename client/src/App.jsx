@@ -22,23 +22,22 @@ import Logout from "./components/Logout.jsx";
 
 function App() {
     const [auth, setAuth] = useState(() => {
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('userId');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userId');
 
-		return {};
-	});
+        return {};
+    });
     const navigate = useNavigate();
 
     const loginSubmitHandler = async (values, closeModal) => {
-		
         try {
             const result = await authService.login(values.email, values.password);
 
             setAuth(result);
-			console.log(`Login user Id ${result._id}`)
-			console.log(`Login token ${result.accessToken}`)
+            console.log(`Login user Id ${result._id}`);
+            console.log(`Login token ${result.accessToken}`);
             localStorage.setItem('accessToken', result.accessToken);
-			localStorage.setItem('userId', result._id);
+            localStorage.setItem('userId', result._id);
 
             closeModal();
 
@@ -50,40 +49,40 @@ function App() {
     };
 
     const registerSubmitHandler = async (values, closeModal) => {
-		
         try {
             const result = await authService.register(values.email, values.password);
-			
-			
+            
+            // Set auth and save tokens in local storage after registration
+            setAuth(result);
             localStorage.setItem('accessToken', result.accessToken);
-			localStorage.setItem('userId', result._id);
+            localStorage.setItem('userId', result._id);
 
+            // Close the registration modal
             closeModal();
 
-            navigate(Path.Login);
+            // Automatically log in the user after registration
+            navigate(Path.Calendar);
 
         } catch (error) {
             console.error("Registration failed", error);
         }
-    }
+    };
 
     const logoutHandler = () => {
-
         setAuth({});
 
         localStorage.removeItem('accessToken');
-		localStorage.removeItem('userId');
+        localStorage.removeItem('userId');
     };
 
     const values = { 
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
-		// userId: auth._id,
         email: auth.email,
         username: auth.username || auth.email,
         isAuthenticated: !!auth.accessToken,
-    }
+    };
 
     return (
         <AuthContext.Provider value={values}>
