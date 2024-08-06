@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SignIn from './SignIn.jsx';
 import Registration from './Registration.jsx';
-import AuthContext from '../contexts/authContext.js';
+import AuthContext from '../contexts/authContext.jsx';
 import Path from "../path.js";
 
 export default function Header() {
@@ -48,12 +48,14 @@ export default function Header() {
                                     <Nav.Link as={Link} to={Path.Logout} >Logout</Nav.Link>
                                 </>
                             ) : (
-
-                                <Nav.Link as={Link} to="/login" onClick={() => setModalShow(true)}>Login</Nav.Link>
+                                <>
+                                    <Nav.Link as={Link} to="/login" onClick={() => setModalShow(true)}>Login</Nav.Link>
+                                    <Button variant="primary" onClick={() => setModalShow(true)}>
+                                        Appointment <i className="fa fa-arrow-right ms-3"></i>
+                                    </Button>
+                                </>
                             )}
-                            <Button variant="primary" onClick={() => setModalShow(true)}>
-                                Appointment <i className="fa fa-arrow-right ms-3"></i>
-                            </Button>
+
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -335,10 +335,14 @@
  span.username {
     margin-right: 30px;
     padding: 40px 0;
-    color: red;
+    color: blue;
     font-family: 'Oswald', sans-serif;
     font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
     outline: none;
+}
+
+.nav-link:focus {
+    color: #EB1616 !important;
 }

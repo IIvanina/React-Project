@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 
 import styles from '../components/Modal.module.css';
-import AuthContext from '../contexts/authContext.js';
+import AuthContext from '../contexts/authContext.jsx';
 import useForm from '../hooks/useForm.js';
 
 const RegisterFormKeys = {

@@ -5,7 +5,7 @@ import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from '../components/Modal.module.css';
 import useForm from '../hooks/useForm.js';
-import AuthContext from '../contexts/authContext.js';
+import AuthContext from '../contexts/authContext.jsx';
 import { useContext } from 'react';
 
 const LoginFormKeys = {
