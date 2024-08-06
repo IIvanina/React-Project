@@ -5,6 +5,11 @@
     padding: 20px;
 }
 
+.pastBooking {
+    background-color: lightgray;
+    opacity: 0.6;
+}
+
 .timeDetails {
     list-style: none;
     color: #EB1616;

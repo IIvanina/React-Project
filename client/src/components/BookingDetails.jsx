@@ -24,8 +24,10 @@ export default function BookingDetails({
         }
     };
 
+    const boxClass = bookingDate < now ? `${styles.detailsBox} ${styles.pastBooking}` : styles.detailsBox;
+
     return (
-        <div className={styles.detailsBox}>
+        <div className={boxClass}>
             {services.map(service => (
                 <h3 key={`${service.name}${_id}`}>
                     {service.name} - {service.price} Euro
