@@ -18,6 +18,10 @@ export default function MyBookings() {
         fetchBookings();
     }, []);
 
+    const removeBooking = (bookingId) => {
+        setBookings(prevBookings => prevBookings.filter(booking => booking._id !== bookingId));
+    };
+
     console.log(bookings);
 
     return (
@@ -25,7 +29,7 @@ export default function MyBookings() {
             <h2 className="text-uppercase">My Bookings</h2>
             <ul>
                 {bookings.map(booking => (
-                    <BookingDetails key={booking._id} {...booking} />
+                    <BookingDetails key={booking._id} {...booking} removeBooking={removeBooking} />
                 ))}
             </ul>
             {bookings.length === 0 && <p>No bookings yet</p>}

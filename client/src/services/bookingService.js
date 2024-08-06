@@ -1,6 +1,5 @@
 const baseUrl = 'http://localhost:3030/data';
 
-// Function to get the token, ensuring it's fetched correctly
 const getToken = () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -19,15 +18,12 @@ const getUserId = () => {
 
 export const create = async (data) => {
     const userId = getUserId(); 
-    const token = getToken(); // Ensure token is fetched here
+    const token = getToken();
 
     const bookingData = {
         ...data,
         _ownerId: userId
     };
-
-    console.log(`USER-ID: ${bookingData._ownerId}`); // Debug log to check userId
-    console.log(`x-ID: ${token}`);
 
     try {
         const response = await fetch(`${baseUrl}/booking`, {
@@ -42,7 +38,7 @@ export const create = async (data) => {
         console.log(`USER-ID2: ${bookingData._ownerId}`); 
 
         if (!response.ok) {
-            const errorText = await response.text(); // Get detailed error message
+            const errorText = await response.text(); 
             console.error('Error response from server:', errorText);
             throw new Error('Network response was not ok');
         }
@@ -57,7 +53,7 @@ export const create = async (data) => {
 
 export const getAllBookingsForUser = async () => {
     const userId = getUserId();
-    const token = getToken(); // Ensure token is fetched here
+    const token = getToken(); 
     const encodedQuery = encodeURIComponent(`_ownerId="${userId}"`);
 
     try {
@@ -80,9 +76,8 @@ export const getAllBookingsForUser = async () => {
 };
 
 export const getBookingsForDate = async (date) => {
-    const token = getToken(); // Ensure token is fetched here
+    const token = getToken(); 
 
-    // Ensure the date is in ISO format without time (UTC)
     const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD'
     console.log(formattedDate);
 
@@ -99,7 +94,6 @@ export const getBookingsForDate = async (date) => {
 
         const result = await response.json();
 
-        // Convert the object to an array and filter by the exact date
         const bookingsArray = Object.values(result).filter(booking =>
             booking.date.startsWith(formattedDate)
         );
@@ -109,6 +103,31 @@ export const getBookingsForDate = async (date) => {
         return bookingsArray;
     } catch (error) {
         console.error('Error fetching bookings for date:', error);
+        throw error;
+    }
+};
+
+
+export const deleteBooking = async (bookingId) => {
+    const token = getToken(); 
+
+    try {
+        const response = await fetch(`${baseUrl}/booking/${bookingId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-Authorization': token
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text(); 
+            console.error('Error response from server:', errorText);
+            throw new Error('Network response was not ok');
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error deleting booking:', error);
         throw error;
     }
 };

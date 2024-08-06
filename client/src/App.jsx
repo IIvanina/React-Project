@@ -1,8 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 import { AuthProvider } from "./contexts/authContext.jsx";
-import * as authService from "./services/authService.js";
 import Path from "../src/path.js";
 
 import Footer from "./components/Footer.jsx";
@@ -15,13 +13,11 @@ import WorkingHour from "./components/WorkingHour.jsx";
 import Testimonial from "./components/Testimonial.jsx";
 import NotFound from "./components/NotFound.jsx";
 import SignIn from "./components/SignIn.jsx";
-import Registration from "./components/Registration.jsx";
 import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
 import Logout from "./components/Logout.jsx";
 
 function App() {
-   
 
     return (
         <AuthProvider >
