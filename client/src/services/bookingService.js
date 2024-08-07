@@ -131,3 +131,30 @@ export const deleteBooking = async (bookingId) => {
         throw error;
     }
 };
+
+export const updateBooking = async (bookingId, data) => {
+    const token = getToken();
+
+    try {
+        const response = await fetch(`${baseUrl}/booking/${bookingId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': token
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response from server:', errorText);
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error updating booking:', error);
+        throw error;
+    }
+};

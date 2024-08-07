@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useReducer, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styles from '../components/BookingCalendar.module.css';
@@ -18,17 +18,53 @@ const timeSlots = [
     '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'
 ];
 
+const initialState = {
+    selectedDate: new Date(),
+    selectedServices: [],
+    bookedSlots: [],
+    allSlotsBooked: false,
+    loading: true,
+    selectedTime: null,
+    isEditing: false,
+    bookingId: null,
+};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'SET_DATE':
+            return { ...state, selectedDate: action.payload, loading: true };
+        case 'SET_SERVICES':
+            return { ...state, selectedServices: action.payload };
+        case 'SET_BOOKED_SLOTS':
+            return { ...state, bookedSlots: action.payload, allSlotsBooked: action.allSlotsBooked, loading: false };
+        case 'SET_LOADING':
+            return { ...state, loading: action.payload };
+        case 'SET_EDITING':
+            return { ...state, isEditing: action.payload.isEditing, bookingId: action.payload.bookingId };
+        case 'SET_TIME':
+            return { ...state, selectedTime: action.payload };
+        default:
+            throw new Error('Unknown action type');
+    }
+}
+
 export default function BookingCalendar() {
-    const initialDate = new Date();
-    initialDate.setDate(initialDate.getDate() - 1);
-
-    const [selectedDate, setSelectedDate] = useState(initialDate);
-    const [selectedServices, setSelectedServices] = useState([]);
-    const [bookedSlots, setBookedSlots] = useState([]);
-    const [allSlotsBooked, setAllSlotsBooked] = useState(false);
-    const [loading, setLoading] = useState(true);
-
     const navigate = useNavigate();
+    const location = useLocation();
+    const initialBooking = location.state || null;
+
+    const initialState = {
+        selectedDate: initialBooking ? new Date(initialBooking.date) : new Date(),
+        selectedServices: initialBooking ? initialBooking.services.map(service => service.name) : [],
+        bookedSlots: [],
+        allSlotsBooked: false,
+        loading: true,
+        selectedTime: initialBooking ? initialBooking.time : null,
+        isEditing: !!initialBooking,
+        bookingId: initialBooking ? initialBooking._id : null,
+    };
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of day in local time
@@ -36,34 +72,29 @@ export default function BookingCalendar() {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            setLoading(true);
+            dispatch({ type: 'SET_LOADING', payload: true });
             try {
-                const result = await bookingService.getBookingsForDate(selectedDate);
+                const result = await bookingService.getBookingsForDate(state.selectedDate);
                 const booked = result.map(booking => booking.time);
 
                 const allBooked = timeSlots.every(slot => booked.includes(slot));
-                setBookedSlots(booked);
-                setAllSlotsBooked(allBooked);
+                dispatch({ type: 'SET_BOOKED_SLOTS', payload: booked, allSlotsBooked: allBooked });
             } catch (error) {
                 console.error('Error fetching bookings:', error);
-                setBookedSlots([]);
-                setAllSlotsBooked(false);
-            } finally {
-                setLoading(false);
+                dispatch({ type: 'SET_BOOKED_SLOTS', payload: [], allSlotsBooked: false });
             }
         };
 
         fetchBookings();
-    }, [selectedDate]);
+    }, [state.selectedDate]);
 
     const onDateChange = (date) => {
-        // Convert date to local time and ensure it's not before today
         const localDate = new Date(date);
         localDate.setHours(0, 0, 0, 0);
         const localDateUTC = localDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
         if (localDateUTC >= todayUTC) {
-            setSelectedDate(date);
+            dispatch({ type: 'SET_DATE', payload: date });
         }
     };
 
@@ -72,51 +103,40 @@ export default function BookingCalendar() {
         const service = services.find(service => service.name === value);
 
         if (checked) {
-            setSelectedServices([...selectedServices, service]);
+            dispatch({ type: 'SET_SERVICES', payload: [...state.selectedServices, service.name] });
         } else {
-            setSelectedServices(selectedServices.filter(s => s.name !== value));
+            dispatch({ type: 'SET_SERVICES', payload: state.selectedServices.filter(s => s !== service.name) });
         }
     };
 
     const bookSlot = async (slot) => {
-        if (selectedServices.length === 0) {
+        if (state.selectedServices.length === 0) {
             alert('Please select at least one service before booking.');
             return;
         }
 
         const bookingData = {
-            date: selectedDate.toISOString(),
+            date: state.selectedDate.toISOString(),
             time: slot,
-            services: selectedServices
+            services: state.selectedServices.map(serviceName => {
+                const service = services.find(s => s.name === serviceName);
+                return { name: service.name, price: service.price };
+            }),
         };
 
         try {
-            const result = await bookingService.create(bookingData);
-            // Re-fetch bookings to ensure the state is up-to-date
-            await fetchBookings();
-            
-            alert(`Booking confirmed for ${selectedDate.toDateString()} at ${slot}`);
+            if (state.isEditing) {
+                await bookingService.updateBooking(state.bookingId, bookingData);
+                alert(`Booking updated for ${state.selectedDate.toDateString()} at ${slot}`);
+            } else {
+                await bookingService.create(bookingData);
+                alert(`Booking confirmed for ${state.selectedDate.toDateString()} at ${slot}`);
+            }
+
             navigate('/bookings');
         } catch (error) {
-            console.error('Error creating booking:', error);
+            console.error('Error creating/updating booking:', error);
             alert('Failed to book slot. Please try again.');
-        }
-    };
-
-    const fetchBookings = async () => {
-        setLoading(true);
-        try {
-            const result = await bookingService.getBookingsForDate(selectedDate);
-            const booked = result.map(booking => booking.time);
-            const allBooked = timeSlots.every(slot => booked.includes(slot));
-            setBookedSlots(booked);
-            setAllSlotsBooked(allBooked);
-        } catch (error) {
-            console.error('Error fetching bookings:', error);
-            setBookedSlots([]);
-            setAllSlotsBooked(false);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -131,6 +151,7 @@ export default function BookingCalendar() {
                             id={service.name}
                             value={service.name}
                             onChange={onServiceChange}
+                            checked={state.selectedServices.includes(service.name)}
                         />
                         <label className={styles.serviceLabel} htmlFor={service.name}>
                             {service.name} - ${service.price}
@@ -140,14 +161,14 @@ export default function BookingCalendar() {
             </div>
             <Calendar
                 onChange={onDateChange}
-                value={selectedDate}
+                value={state.selectedDate}
                 minDate={today} // Disable past dates but allow today
             />
             <div className={styles.timeSlots}>
-                <h2>Available Slots on {selectedDate.toDateString()}</h2>
-                {loading ? (
+                <h2>Available Slots on {state.selectedDate.toDateString()}</h2>
+                {state.loading ? (
                     <p>Loading...</p>
-                ) : allSlotsBooked ? (
+                ) : state.allSlotsBooked ? (
                     <p>All slots are booked for this date.</p>
                 ) : (
                     <div className={styles.slots}>
@@ -155,9 +176,9 @@ export default function BookingCalendar() {
                             <span key={slot}>
                                 <button
                                     onClick={() => bookSlot(slot)}
-                                    disabled={bookedSlots.includes(slot)}
+                                    disabled={state.bookedSlots.includes(slot)}
                                 >
-                                    {slot} {bookedSlots.includes(slot) ? '(Booked)' : ''}
+                                    {slot} {state.bookedSlots.includes(slot) ? '(Booked)' : ''}
                                 </button>
                             </span>
                         ))}
