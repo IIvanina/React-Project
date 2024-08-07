@@ -4,11 +4,9 @@ import { AuthProvider } from "./contexts/authContext.jsx";
 import Path from "../src/path.js";
 
 import Footer from "./components/Footer.jsx";
-import Carousel from "./components/Carousel.jsx";
 import Header from "./components/Header.jsx";
 import About from "./components/About.jsx";
 import Services from "./components/Services.jsx";
-import Contact from "./components/Contact.jsx";
 import WorkingHour from "./components/WorkingHour.jsx";
 import Testimonial from "./components/Testimonial.jsx";
 import NotFound from "./components/NotFound.jsx";
@@ -24,12 +22,10 @@ function App() {
             <>
                 <Header />
                 <Routes>
-                    <Route path={Path.Home} element={<Carousel />} />
-                    <Route path="/about" element={<About />} />
+                    <Route path={Path.Home} element={<About />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/open" element={<WorkingHour />} />
                     <Route path="/testimonial" element={<Testimonial />} />
-                    <Route path="/contact" element={<Contact />} />
                     <Route path={Path.Calendar} element={<BookingCalendar />} />
                     <Route path="/bookings" element={<MyBookings />} />
                     <Route path={Path.Login} element={<SignIn />} />

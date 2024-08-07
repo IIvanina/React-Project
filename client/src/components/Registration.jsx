@@ -14,8 +14,6 @@ const RegisterFormKeys = {
     Name: 'name',
     Email: 'email',
     Password: 'password',
-    ConfirmPassword: 'confirm-password'
-
 }
 
 const Registration = forwardRef((props, ref) => {
@@ -94,14 +92,14 @@ const Registration = forwardRef((props, ref) => {
                         </Form.Group>
                         
                     </Row>
-                    <Form.Group className="mb-3">
+                    {/* <Form.Group className="mb-3">
                         <Form.Check
                             required
                             label="Agree to terms and conditions"
                             feedback="You must agree before submitting."
                             feedbackType="invalid"
                         />
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button type="submit">Submit form</Button>
                 </Form>
             </Modal.Body>

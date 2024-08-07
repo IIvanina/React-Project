@@ -17,7 +17,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -30,7 +30,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -43,7 +43,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -56,7 +56,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -69,7 +69,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -82,7 +82,7 @@ export default function Services() {
                                 <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
                                 <span className="text-uppercase text-primary">From $15</span>
                             </div>
-                            <a className="btn btn-square" href=""><i className="fa fa-plus text-primary"></i></a>
+                            
                         </div>
                     </div>
                 </div>

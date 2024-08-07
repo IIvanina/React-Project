@@ -97,10 +97,10 @@ export default function BookingDetails({
             </div>
             {bookingDate > now && (
                 <>
-                    <button className='btn btn-light w-100 py-3 mb-2' onClick={startEditingHandler}>Edit</button>
-                    <button className='btn btn-primary w-100 py-3' onClick={deleteBookingHandler}>Delete</button>
+                    <button className='btn btn-light w-100 py-3 mb-2' onClick={startEditingHandler}>Edit Booking</button>
+                    <button className='btn btn-primary w-100 py-3' onClick={deleteBookingHandler}>Delete Booking</button>
 
-                    <article className="create-comment">
+                    <article className={styles.createComment}>
                         <label>Add new comment:</label>
                         <form className="form" onSubmit={addCommentHandler}>
                             <textarea 

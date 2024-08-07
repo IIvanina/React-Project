@@ -34,7 +34,7 @@ export const AuthProvider = ({
 
     const registerSubmitHandler = async (values, closeModal) => {
         try {
-            const result = await authService.register(values.email, values.password);
+            const result = await authService.register(values.email, values.password, values.name);
             
             // Set auth and save tokens in local storage after registration
             setAuth(result);
