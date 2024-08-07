@@ -18,6 +18,22 @@
     margin-bottom: 20px;
 }
 
+.commentDetail {
+    text-align: left;
+}
+
+.commentDetail h5{
+    color: gold;
+}
+
+.commentDetail ul li {
+    list-style: none;
+}
+
+.commentText {
+    color: gold;
+    font-size: large;
+}
 .notesSection {
     margin-bottom: 1rem;
 }
