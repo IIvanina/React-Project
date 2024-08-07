@@ -35,19 +35,19 @@ export default function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            <Nav.Link as={Link} to="/services">Services</Nav.Link>
+                            <Nav.Link as={Link} to={Path.Home}>Home</Nav.Link>
+                            <Nav.Link as={Link} to={Path.Services}>Services</Nav.Link>
                         </Nav>
                         <Nav>
                             {isAuthenticated ? (
                                 <>  <span className='username'>{username}</span>
                                     <Nav.Link as={Link} to={Path.Calendar}>Calendar</Nav.Link>
-                                    <Nav.Link as={Link} to="/bookings">My Bookings</Nav.Link>
+                                    <Nav.Link as={Link} to={Path.Bokkings}>My Bookings</Nav.Link>
                                     <Nav.Link as={Link} to={Path.Logout} >Logout</Nav.Link>
                                 </>
                             ) : (
                                 <>
-                                    <Nav.Link as={Link} to="/login" onClick={() => setModalShow(true)}>Login</Nav.Link>
+                                    <Nav.Link as={Link} to={Path.Login} onClick={() => setModalShow(true)}>Login</Nav.Link>
                                     <Button variant="primary" onClick={() => setModalShow(true)}>
                                         Appointment <i className="fa fa-arrow-right ms-3"></i>
                                     </Button>
