@@ -16,7 +16,7 @@ export default function Header() {
     const signInRef = useRef(null);
     const registrationRef = useRef(null);
 
-    const { loginSubmitHandler, isAuthenticated, username, logoutHandler } = useContext(AuthContext);
+    const { loginSubmitHandler, isAuthenticated, username, userId } = useContext(AuthContext);
 
     const handleCreateAccountClick = () => {
         setModalShow(false);
@@ -41,8 +41,8 @@ export default function Header() {
                         <Nav>
                             {isAuthenticated ? (
                                 <>  <span className='username'>{username}</span>
-                                    <Nav.Link as={Link} to={Path.Calendar}>Calendar</Nav.Link>
-                                    <Nav.Link as={Link} to={Path.Bokkings}>My Bookings</Nav.Link>
+                                    <Nav.Link as={Link} to={`/calendar/${username}`}>Calendar</Nav.Link>
+                                    <Nav.Link as={Link} to={`/bookings/${username}`}>My Bookings</Nav.Link>
                                     <Nav.Link as={Link} to={Path.Logout} >Logout</Nav.Link>
                                 </>
                             ) : (

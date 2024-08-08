@@ -2,7 +2,6 @@ import React, { forwardRef, useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 
@@ -92,14 +91,7 @@ const Registration = forwardRef((props, ref) => {
                         </Form.Group>
                         
                     </Row>
-                    {/* <Form.Group className="mb-3">
-                        <Form.Check
-                            required
-                            label="Agree to terms and conditions"
-                            feedback="You must agree before submitting."
-                            feedbackType="invalid"
-                        />
-                    </Form.Group> */}
+                   
                     <Button type="submit">Submit form</Button>
                 </Form>
             </Modal.Body>

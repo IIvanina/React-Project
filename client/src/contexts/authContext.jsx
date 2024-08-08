@@ -25,7 +25,7 @@ export const AuthProvider = ({
 
             closeModal();
 
-            navigate(Path.Calendar);
+            navigate(`/calendar/${result.username}`);
 
         } catch (error) {
             console.error("Login failed", error);
@@ -45,7 +45,7 @@ export const AuthProvider = ({
             closeModal();
 
             // Automatically log in the user after registration
-            navigate(Path.Calendar);
+            navigate(`/calendar/${result.username}`);
 
         } catch (error) {
             console.error("Registration failed", error);
@@ -63,6 +63,7 @@ export const AuthProvider = ({
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
+        userId: auth._id,
         email: auth.email,
         username: auth.username || auth.email,
         isAuthenticated: !!auth.accessToken,

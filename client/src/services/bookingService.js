@@ -52,7 +52,7 @@ export const create = async (data) => {
 };
 
 export const getAllBookingsForUser = async () => {
-    const userId = getUserId();
+    const userId = getUserId(); 
     const token = getToken(); 
     const encodedQuery = encodeURIComponent(`_ownerId="${userId}"`);
 
@@ -155,6 +155,31 @@ export const updateBooking = async (bookingId, data) => {
         return result;
     } catch (error) {
         console.error('Error updating booking:', error);
+        throw error;
+    }
+};
+
+
+export const getBookingById = async (bookingId) => {
+    const token = getToken();
+
+    try {
+        const response = await fetch(`${baseUrl}/booking/${bookingId}`, {
+            headers: {
+                'X-Authorization': token
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response from server:', errorText);
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error fetching booking:', error);
         throw error;
     }
 };

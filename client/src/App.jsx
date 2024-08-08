@@ -13,21 +13,24 @@ import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
 import Logout from "./components/Logout.jsx";
 import AuthGuard from "./components/guards/AuthGuard.jsx";
+import BookingDetails from "./components/BookingDetails.jsx"; // Ensure correct import
 
 function App() {
-
     return (
-        <AuthProvider >
+        <AuthProvider>
             <>
                 <Header />
                 <Routes>
                     <Route path={Path.Home} element={<About />} />
                     <Route path={Path.Services} element={<Services />} />
-                    <Route path={Path.Calendar} element={<AuthGuard><BookingCalendar /></AuthGuard>} />
-                    <Route path={Path.Bokkings} element={<AuthGuard><MyBookings /></AuthGuard>} />
                     <Route path={Path.Login} element={<SignIn />} />
                     <Route path={Path.Logout} element={<Logout />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route element={<AuthGuard />}>
+                        <Route path="/calendar/:username" element={<BookingCalendar />} />
+                        <Route path="/bookings/:username" element={<MyBookings />} />
+                        <Route path="/booking/:_id" element={<BookingDetails />} /> {/* Updated path */}
+                    </Route>
                 </Routes>
                 <Footer />
             </>

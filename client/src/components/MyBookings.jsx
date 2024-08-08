@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import * as bookingService from '../services/bookingService';
-import BookingDetails from './BookingDetails';
+import BookingList from './BookingList';
 
 export default function MyBookings() {
+    const { userId } = useParams();
+    console.log(`ParMyBooking: ${userId}`)
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export default function MyBookings() {
             <h2 className="text-uppercase">My Bookings</h2>
             <ul>
                 {bookings.map(booking => (
-                    <BookingDetails key={booking._id} {...booking} removeBooking={removeBooking} />
+                    <BookingList key={booking._id} {...booking} removeBooking={removeBooking} />
                 ))}
             </ul>
             {bookings.length === 0 && <p>No bookings yet</p>}

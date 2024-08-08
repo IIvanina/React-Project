@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation,  useParams } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styles from '../components/BookingCalendar.module.css';
@@ -7,10 +7,11 @@ import * as bookingService from '../services/bookingService';
 
 const services = [
     { name: 'Haircut', price: 20 },
-    { name: 'Shampoo', price: 10 },
-    { name: 'Nail Trim', price: 15 },
-    { name: 'Ear Cleaning', price: 12 },
-    { name: 'Teeth Brushing', price: 18 }
+    { name: 'Beard Trim', price: 10 },
+    { name: 'Mans Shave', price: 15 },
+    { name: 'Hair Dyeing', price: 12 },
+    { name: 'Mustache', price: 18 },
+    { name: 'Stacking', price: 16 },
 ];
 
 const timeSlots = [
@@ -18,16 +19,6 @@ const timeSlots = [
     '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'
 ];
 
-const initialState = {
-    selectedDate: new Date(),
-    selectedServices: [],
-    bookedSlots: [],
-    allSlotsBooked: false,
-    loading: true,
-    selectedTime: null,
-    isEditing: false,
-    bookingId: null,
-};
 
 function reducer(state, action) {
     switch (action.type) {
@@ -52,9 +43,14 @@ export default function BookingCalendar() {
     const navigate = useNavigate();
     const location = useLocation();
     const initialBooking = location.state || null;
+    const { username } = useParams();
+    
+
+    const initialDate = new Date();
+    initialDate.setDate(initialDate.getDate() - 1);
 
     const initialState = {
-        selectedDate: initialBooking ? new Date(initialBooking.date) : new Date(),
+        selectedDate: initialBooking ? new Date(initialBooking.date) : initialDate,
         selectedServices: initialBooking ? initialBooking.services.map(service => service.name) : [],
         bookedSlots: [],
         allSlotsBooked: false,
@@ -133,7 +129,7 @@ export default function BookingCalendar() {
                 alert(`Booking confirmed for ${state.selectedDate.toDateString()} at ${slot}`);
             }
 
-            navigate('/bookings');
+            navigate(`/bookings/${username}`);
         } catch (error) {
             console.error('Error creating/updating booking:', error);
             alert('Failed to book slot. Please try again.');
