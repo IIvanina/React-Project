@@ -49,3 +49,9 @@
     border-radius: 4px;
 }
 
+.uploadImages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

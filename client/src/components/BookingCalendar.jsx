@@ -43,6 +43,7 @@ export default function BookingCalendar() {
     const navigate = useNavigate();
     const location = useLocation();
     const initialBooking = location.state || null;
+    console.log(initialBooking)
     const { username } = useParams();
     
 

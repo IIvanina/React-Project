@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from '../components/BookingDetails.module.css';
 import * as bookingService from '../services/bookingService.js';
 import * as notesService from '../services/notesServices.js';
+import AuthContext from '../contexts/authContext.jsx';
+
 
 export default function BookingDetails() {
     const { _id } = useParams(); // Use the correct parameter name
+    const { username } = useContext(AuthContext)
     console.log(`Parameter: ${_id}`);
     const navigate = useNavigate();
     const [comments, setComments] = useState([]);
@@ -45,7 +48,7 @@ export default function BookingDetails() {
     };
 
     const startEditingHandler = () => {
-        navigate('/calendar', { state: booking });
+        navigate(`/calendar/${username}`, { state: booking });
     };
 
     const addCommentHandler = async (e) => {
@@ -110,7 +113,7 @@ export default function BookingDetails() {
                         </form>
                     </article>
                 </>
-            )}
+            )} 
         </div>
     );
 }
