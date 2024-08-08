@@ -39,11 +39,19 @@ export default function BookingDetails() {
     }, [_id]);
 
     const deleteBookingHandler = async () => {
-        try {
-            await bookingService.deleteBooking(_id);
-            navigate('/'); // Redirect to the MyBookings page after deletion
-        } catch (error) {
-            console.error('Error deleting booking:', error);
+        if (booking && booking.services && booking.services.length > 0) {
+            const serviceNames = booking.services.map(service => service.name).join(', ');
+            const hasConfirmed = confirm(`Are you sure you want to delete the booking with services: ${serviceNames}`);
+            if (hasConfirmed) {
+                try {
+                    await bookingService.deleteBooking(_id);
+                    navigate(`/bookings/${username}`);
+                } catch (error) {
+                    console.error('Error deleting booking:', error);
+                }
+            }
+        } else {
+            alert('No services to delete.');
         }
     };
 
@@ -103,9 +111,9 @@ export default function BookingDetails() {
                     <article className={styles.createComment}>
                         <label>Add new comment:</label>
                         <form className="form" onSubmit={addCommentHandler}>
-                            <textarea 
-                                name="comment" 
-                                placeholder="Comment......" 
+                            <textarea
+                                name="comment"
+                                placeholder="Comment......"
                                 value={newCommentText}
                                 onChange={(e) => setNewCommentText(e.target.value)}
                             ></textarea>
@@ -113,7 +121,7 @@ export default function BookingDetails() {
                         </form>
                     </article>
                 </>
-            )} 
+            )}
         </div>
     );
 }
