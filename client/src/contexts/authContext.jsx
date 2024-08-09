@@ -11,6 +11,7 @@ export const AuthProvider = ({
     
 }) => {
     const [auth, setAuth] = usePersistedState({});
+    const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
     const loginSubmitHandler = async (values, closeModal) => {
@@ -28,7 +29,12 @@ export const AuthProvider = ({
             navigate(`/calendar/${result.username}`);
 
         } catch (error) {
-            console.error("Login failed", error);
+            // console.error("Login failed", error);
+            if (error.message.includes('403')) {
+                throw new Error("Login or password don't match");
+            } else {
+                throw error; 
+            }
         }
     };
 
@@ -36,19 +42,22 @@ export const AuthProvider = ({
         try {
             const result = await authService.register(values.email, values.password, values.name);
             
-            // Set auth and save tokens in local storage after registration
             setAuth(result);
             localStorage.setItem('accessToken', result.accessToken);
             localStorage.setItem('userId', result._id);
 
-            // Close the registration modal
             closeModal();
 
-            // Automatically log in the user after registration
             navigate(`/calendar/${result.username}`);
 
         } catch (error) {
             console.error("Registration failed", error);
+            if (error.message.includes('already exists')) {
+                setErrorMessage('A user with the same email already exists');
+            } else {
+                setErrorMessage('Registration failed');
+            }
+            
         }
     };
 
@@ -63,6 +72,7 @@ export const AuthProvider = ({
         loginSubmitHandler,
         registerSubmitHandler,
         logoutHandler,
+        errorMessage,
         userId: auth._id,
         email: auth.email,
         username: auth.username || auth.email,

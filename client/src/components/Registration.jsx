@@ -17,7 +17,7 @@ const RegisterFormKeys = {
 
 const Registration = forwardRef((props, ref) => {
     const { show, onHide } = props;
-    const { registerSubmitHandler } = useContext(AuthContext);
+    const { registerSubmitHandler, errorMessage } = useContext(AuthContext);
 
     const [validated, setValidated] = useState(false);
 
@@ -25,12 +25,25 @@ const Registration = forwardRef((props, ref) => {
         onHide();
     };
 
-    const { values, onChange, onSubmit } = useForm(registerSubmitHandler, {
+    const validate = (values) => {
+        const errors = {};
+        if (!values.name) {
+            errors.name = 'Name is required';
+        }
+        if (!values.email) {
+            errors.email = 'Email is required';
+        }
+        if (!values.password) {
+            errors.password = 'Password is required';
+        }
+        return errors;
+    };
+
+    const { values, errors, onChange, onSubmit } = useForm(registerSubmitHandler, {
         [RegisterFormKeys.Name]: '',
         [RegisterFormKeys.Email]: '',
         [RegisterFormKeys.Password]: '',
-        
-    }, closeModal);
+    }, validate, closeModal);
 
     return (
         <Modal
@@ -48,6 +61,11 @@ const Registration = forwardRef((props, ref) => {
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
                 <Form noValidate validated={validated} onSubmit={onSubmit}>
+                    {errorMessage && (
+                        <div className="alert alert-danger">
+                            {errorMessage}
+                        </div>
+                    )}
                     <Row className="mb-3">
                         <Form.Group as={Col} md="4">
                             <Form.Label>Name</Form.Label>
@@ -59,8 +77,11 @@ const Registration = forwardRef((props, ref) => {
                                 name="name"
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Name]}
+                                isInvalid={!!errors.name}
                             />
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.name}
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group as={Col} md="4">
                             <Form.Label>Email</Form.Label>
@@ -72,8 +93,11 @@ const Registration = forwardRef((props, ref) => {
                                 name="email"
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Email]}
+                                isInvalid={!!errors.email}
                             />
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.email}
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row className="mb-3">
@@ -86,12 +110,14 @@ const Registration = forwardRef((props, ref) => {
                                 name="password"
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Password]}
+                                isInvalid={!!errors.password}
                                 required
                             />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.password}
+                            </Form.Control.Feedback>
                         </Form.Group>
-                        
                     </Row>
-                   
                     <Button type="submit">Submit form</Button>
                 </Form>
             </Modal.Body>
@@ -100,4 +126,3 @@ const Registration = forwardRef((props, ref) => {
 });
 
 export default Registration;
-

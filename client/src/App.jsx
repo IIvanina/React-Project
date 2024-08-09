@@ -14,6 +14,7 @@ import MyBookings from "./components/MyBookings.jsx";
 import Logout from "./components/Logout.jsx";
 import AuthGuard from "./components/guards/AuthGuard.jsx";
 import BookingDetails from "./components/BookingDetails.jsx"; // Ensure correct import
+import Registration from "./components/Registration.jsx";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path={Path.Home} element={<About />} />
                     <Route path={Path.Services} element={<Services />} />
                     <Route path={Path.Login} element={<SignIn />} />
+                    <Route path={Path.Register} element={<Registration />} />
                     <Route path={Path.Logout} element={<Logout />} />
                     <Route path="*" element={<NotFound />} />
                     <Route element={<AuthGuard />}>

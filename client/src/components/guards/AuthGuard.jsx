@@ -5,7 +5,7 @@ import AuthContext from "../../contexts/authContext.jsx";
 
 export default function AuthGuard(props) {
 
-    const { isAuthenticated} = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
     if(!isAuthenticated){
         return <Navigate to={Path.Home} />

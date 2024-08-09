@@ -20,23 +20,26 @@ export const login = async (email, password) => {
     return result;
 }
 
-export const register = async (email, password, username) => {
-    const response = await fetch(`${baseUrl}/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password, username })
-    });
+export const register = async (email, password, name) => {
+    try {
+        const response = await fetch('http://localhost:3030/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password, name }),
+        });
 
-    if (!response.ok) {
-        throw new Error('Registration failed');
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'An error occurred');
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw error;
     }
-
-    const result = await response.json();
-    localStorage.setItem('accessToken', result.accessToken); // Store the token
-    return result;
-}
+};
 
 export const logout = async () => {
     const token = localStorage.getItem('accessToken');

@@ -1318,6 +1318,9 @@
 
     var identity = "email";
     var protectedData = {
+        booking: {
+
+        },
     	users: {
     		"35c62d76-8152-4626-8712-eeb96381bea8": {
     			email: "peter@abv.bg",

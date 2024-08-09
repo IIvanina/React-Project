@@ -1,28 +1,33 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Form } from 'react-bootstrap';
+import { Form, Alert } from 'react-bootstrap'; 
 import { Link } from 'react-router-dom';
 import styles from '../components/Modal.module.css';
 import useForm from '../hooks/useForm.js';
 import AuthContext from '../contexts/authContext.jsx';
-import { useContext } from 'react';
+import validateLoginForm from '../utils/validation.js';
+import Path from '../path.js';
 
 const LoginFormKeys = {
     Email: 'email',
     Password: 'password',
-}
+};
 
 const SignIn = forwardRef((props, ref) => {
     const { show, onHide, onCreateAccountClick } = props;
     const { loginSubmitHandler } = useContext(AuthContext);
-    
-    const { values, onChange, onSubmit } = useForm(async (values) => {
-        await loginSubmitHandler(values, onHide);
-    }, {
-        [LoginFormKeys.Email]: '',
-        [LoginFormKeys.Password]: '',
-    });
+
+    const { values, errors, isSubmitting, serverError, onChange, onSubmit } = useForm(
+        async (values) => {
+            await loginSubmitHandler(values, onHide);
+        },
+        {
+            [LoginFormKeys.Email]: '',
+            [LoginFormKeys.Password]: '',
+        },
+        validateLoginForm 
+    );
 
     return (
         <Modal
@@ -40,6 +45,11 @@ const SignIn = forwardRef((props, ref) => {
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
                 <Form onSubmit={onSubmit}>
+                    {serverError && (
+                        <Alert variant="danger">
+                            {serverError}
+                        </Alert>
+                    )}
                     <Form.Group className="mb-3" controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control 
@@ -48,7 +58,13 @@ const SignIn = forwardRef((props, ref) => {
                             name={LoginFormKeys.Email}
                             onChange={onChange}
                             value={values[LoginFormKeys.Email]}
+                            isInvalid={!!errors.email}
                         />
+                        {errors.email && (
+                            <Form.Control.Feedback type="invalid">
+                                {errors.email}
+                            </Form.Control.Feedback>
+                        )}
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
@@ -58,9 +74,15 @@ const SignIn = forwardRef((props, ref) => {
                             name={LoginFormKeys.Password}
                             onChange={onChange}
                             value={values[LoginFormKeys.Password]}
+                            isInvalid={!!errors.password}
                         />
+                        {errors.password && (
+                            <Form.Control.Feedback type="invalid">
+                                {errors.password}
+                            </Form.Control.Feedback>
+                        )}
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" disabled={isSubmitting}>
                         Submit
                     </Button>
                 </Form>
@@ -68,7 +90,7 @@ const SignIn = forwardRef((props, ref) => {
                     <p>OR</p>
                     <p>
                         <Link 
-                            to="#" 
+                            to={Path.Register} 
                             onClick={onCreateAccountClick}
                         > 
                             Create an account
@@ -79,5 +101,6 @@ const SignIn = forwardRef((props, ref) => {
         </Modal>
     );
 });
+
 
 export default SignIn;
