@@ -1,6 +1,6 @@
-# Hair Salon SPA App
+# Haircut SPA App
 
-Welcome to the Hair Salon SPA App, a single-page application (SPA) designed for managing bookings and services at a hair salon. This app allows users to browse available services, make reservations, and manage their bookings seamlessly.
+Welcome to the Haircut SPA App, a single-page application (SPA) designed for managing bookings and services at a hair salon. This app allows users to browse available services, make reservations, and manage their bookings seamlessly.
 
 ## Features
 
