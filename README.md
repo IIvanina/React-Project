@@ -25,11 +25,11 @@ To run this project locally, ensure you have the following installed:
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/yourusername/hair-salon-spa-app.git
-    cd client
     ```
 
 2. **Install dependencies**:
     ```bash
+    cd client
     npm install
     npm build
     npm run dev
