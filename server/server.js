@@ -1318,9 +1318,7 @@
 
     var identity = "email";
     var protectedData = {
-        booking: {
-
-        },
+        
     	users: {
     		"35c62d76-8152-4626-8712-eeb96381bea8": {
     			email: "peter@abv.bg",
@@ -1510,8 +1508,67 @@
     			_id: "a9bae6d8-793e-46c4-a9db-deb9e3484909"
     		}
     	},
-    	likes: {
-    	},
+    	// likes: {
+        //     haircut: 0,
+        //     beardTrim: 0,
+        //     mansShave: 0,
+        //     hairDyeing: 0,
+        //     mustache: 0,
+        //     stacking: 0,
+    	// },
+        booking: {
+
+        },
+        hservices: {
+            "haircut": {
+                name: "Haircut",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "haircut"
+            },
+            "beardTrim": {
+                name: "Beard Trim",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "beardTrim"
+            },
+            "mansShave": {
+                name: "Mans Shave",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "mansShave"
+            },
+            "hairDyeing": {
+                name: "Hair Dyeing",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "hairDyeing"
+            },
+            "mustache": {
+                name: "Mustache",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "mustache"
+            },
+            "stacking": {
+                name: "Stacking",
+                description: "A basic haircut service.",
+                price: 20,
+                duration: "30 minutes",
+                likes: 0,
+                _id: "stacking"
+            },
+        },
     	ideas: {
     		"833e0e57-71dc-42c0-b387-0ce0caf5225e": {
     			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",

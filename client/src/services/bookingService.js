@@ -77,7 +77,7 @@ export const getAllBookingsForUser = async () => {
 
 export const getBookingsForDate = async (date) => {
     const token = getToken(); 
-
+    console.log(date)
     const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD'
     console.log(formattedDate);
 

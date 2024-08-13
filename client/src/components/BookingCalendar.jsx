@@ -61,6 +61,8 @@ export default function BookingCalendar() {
         bookingId: initialBooking ? initialBooking._id : null,
     };
 
+    console.log(initialState.selectedDate)    
+
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const today = new Date();
@@ -71,6 +73,8 @@ export default function BookingCalendar() {
         const fetchBookings = async () => {
             dispatch({ type: 'SET_LOADING', payload: true });
             try {
+
+                console.log(state.selectedDate)
                 const result = await bookingService.getBookingsForDate(state.selectedDate);
                 const booked = result.map(booking => booking.time);
 
@@ -86,6 +90,7 @@ export default function BookingCalendar() {
     }, [state.selectedDate]);
 
     const onDateChange = (date) => {
+        
         const localDate = new Date(date);
         localDate.setHours(0, 0, 0, 0);
         const localDateUTC = localDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
@@ -113,7 +118,7 @@ export default function BookingCalendar() {
         }
 
         const bookingData = {
-            date: state.selectedDate.toISOString(),
+            date: state.selectedDate,
             time: slot,
             services: state.selectedServices.map(serviceName => {
                 const service = services.find(s => s.name === serviceName);
@@ -160,6 +165,7 @@ export default function BookingCalendar() {
                 onChange={onDateChange}
                 value={state.selectedDate}
                 minDate={today} // Disable past dates but allow today
+                defaultValue={initialDate} 
             />
             <div className={styles.timeSlots}>
                 <h2>Available Slots on {state.selectedDate.toDateString()}</h2>

@@ -4,16 +4,17 @@ import styles from '../components/BookingDetails.module.css';
 import * as bookingService from '../services/bookingService.js';
 import * as notesService from '../services/notesServices.js';
 import AuthContext from '../contexts/authContext.jsx';
-
+import * as likesService from '../services/likesService.js';
 
 export default function BookingDetails() {
-    const { _id } = useParams(); // Use the correct parameter name
-    const { username } = useContext(AuthContext)
-    console.log(`Parameter: ${_id}`);
+    const { _id } = useParams();
+    const { username } = useContext(AuthContext);
     const navigate = useNavigate();
     const [comments, setComments] = useState([]);
     const [newCommentText, setNewCommentText] = useState('');
     const [booking, setBooking] = useState(null);
+    const [likes, setLikes] = useState({});
+    const [likedServices, setLikedServices] = useState(new Set()); // Track liked services
 
     useEffect(() => {
         const fetchBookingDetails = async () => {
@@ -37,6 +38,34 @@ export default function BookingDetails() {
         fetchBookingDetails();
         fetchComments();
     }, [_id]);
+
+    useEffect(() => {
+        const fetchLikes = async () => {
+            if (booking && booking.services) {
+                const likesData = {};
+                for (let service of booking.services) {
+                    const response = await likesService.getLikes(service.name);
+                    likesData[service.name] = response.likes;
+                }
+                setLikes(likesData);
+            }
+        };
+
+        if (booking && booking.services) {
+            fetchLikes();
+        }
+    }, [booking]);
+
+    useEffect(() => {
+        // Retrieve liked services from local storage
+        const storedLikes = JSON.parse(localStorage.getItem(`likedServices_${_id}`)) || [];
+        setLikedServices(new Set(storedLikes));
+    }, [_id]);
+
+    useEffect(() => {
+        // Persist liked services to local storage
+        localStorage.setItem(`likedServices_${_id}`, JSON.stringify(Array.from(likedServices)));
+    }, [likedServices, _id]);
 
     const deleteBookingHandler = async () => {
         if (booking && booking.services && booking.services.length > 0) {
@@ -70,6 +99,24 @@ export default function BookingDetails() {
         }
     };
 
+    const handleLike = async (service) => {
+        if (likedServices.has(service)) {
+            alert('You have already liked this service.');
+            return;
+        }
+
+        try {
+            const updatedData = await likesService.incrementLike(service);
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [service]: (prevLikes[service] || 0) + 1,
+            }));
+            setLikedServices(new Set([...likedServices, service])); // Mark service as liked
+        } catch (error) {
+            console.error('Error incrementing like:', error);
+        }
+    };
+
     if (!booking) {
         return <div>Loading...</div>;
     }
@@ -81,10 +128,17 @@ export default function BookingDetails() {
     return (
         <div className={boxClass}>
             {booking.services.map(service => (
-                <h3 key={`${service.name}${_id}`}>
-                    {service.name} - {service.price} Euro
-                </h3>
+                <div key={`${service.name}${_id}`}>
+                    <h3>
+                        {service.name} - {service.price} Euro
+                    </h3>
+                    <button onClick={() => handleLike(service.name)}>
+                        Like
+                    </button>
+                    <span> {likes[service.name] || 0} Likes</span>
+                </div>
             ))}
+            
             <ul className={styles.timeDetails}>
                 <li>Date: {bookingDate.toLocaleDateString()}</li>
                 <li>Hour: {booking.time}</li>

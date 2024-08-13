@@ -8,7 +8,10 @@ export default function BookingList({
     time,
     _id,
 }) {
+
+     
     const bookingDate = new Date(date);
+    
     const now = new Date();
     const boxClass = bookingDate < now ? `${styles.detailsBox} ${styles.pastBooking}` : styles.detailsBox;
 
