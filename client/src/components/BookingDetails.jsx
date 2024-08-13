@@ -14,7 +14,7 @@ export default function BookingDetails() {
     const [newCommentText, setNewCommentText] = useState('');
     const [booking, setBooking] = useState(null);
     const [likes, setLikes] = useState({});
-    const [likedServices, setLikedServices] = useState(new Set()); // Track liked services
+    const [likedServices, setLikedServices] = useState(new Set()); 
 
     useEffect(() => {
         const fetchBookingDetails = async () => {
@@ -106,7 +106,7 @@ export default function BookingDetails() {
         }
 
         try {
-            const updatedData = await likesService.incrementLike(service);
+            await likesService.incrementLike(service);
             setLikes((prevLikes) => ({
                 ...prevLikes,
                 [service]: (prevLikes[service] || 0) + 1,
@@ -132,9 +132,14 @@ export default function BookingDetails() {
                     <h3>
                         {service.name} - {service.price} Euro
                     </h3>
-                    <button onClick={() => handleLike(service.name)}>
-                        Like
-                    </button>
+                    {bookingDate < now && (
+                        <button
+                            className="btn btn-warning mx-2"
+                            onClick={() => handleLike(service.name)}
+                        >
+                            {likedServices.has(service.name) ? 'Liked' : 'Like'}
+                        </button>
+                    )}
                     <span> {likes[service.name] || 0} Likes</span>
                 </div>
             ))}

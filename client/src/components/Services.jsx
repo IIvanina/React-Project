@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as likesService from '../services/likesService.js'; // Adjust the import path as necessary
+import * as likesService from '../services/likesService.js'; 
 
 export default function Services() {
     const [likes, setLikes] = useState({
@@ -11,7 +11,6 @@ export default function Services() {
         'Stacking': 0,
     });
 
-    // Fetch likes from the server when the component mounts
     useEffect(() => {
         const fetchLikes = async () => {
             try {
@@ -31,19 +30,6 @@ export default function Services() {
 
         fetchLikes();
     }, []);
-
-    // Function to handle likes increment
-    // const handleLike = async (service) => {
-    //     try {
-    //         const updatedData = await likesService.incrementLike(service);
-    //         setLikes((prevLikes) => ({
-    //             ...prevLikes,
-    //             [service]: updatedData.likes, // Assuming the server returns the updated likes count
-    //         }));
-    //     } catch (error) {
-    //         console.error('Error incrementing like:', error);
-    //     }
-    // };
 
     return (
         <div className="container-xxl py-5">
@@ -69,7 +55,7 @@ export default function Services() {
                                     <span className="text-uppercase text-primary">From $15</span>
                                     <div>
                                         
-                                        <span>{likes[service]} Likes</span>
+                                        <span style={{color: 'yellow'}}>{likes[service]} Likes</span>
                                     </div>
                                 </div>
                             </div>

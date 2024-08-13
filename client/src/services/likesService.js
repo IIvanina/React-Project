@@ -36,7 +36,7 @@ export const incrementLike = async (service) => {
                 'Content-Type': 'application/json',
                 'X-Authorization': token,
             },
-            body: JSON.stringify({ service }), // Sending the service name in the request body
+            body: JSON.stringify({ service }), 
         });
 
         if (!response.ok) {
@@ -45,7 +45,6 @@ export const incrementLike = async (service) => {
 
         const data = await response.json();
 
-        // Return the updated like count from the server response
         return data;
     } catch (error) {
         console.error('Error incrementing like:', error);
