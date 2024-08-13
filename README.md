@@ -10,6 +10,7 @@ Welcome to the Haircut SPA App, a single-page application (SPA) designed for man
 - **Service Reservation**: Reserve a date and time for any of the services.
 - **Manage Reservations**: Edit or delete your existing reservations easily.
 - **Comments**: Leave feedback on your bookings for future reference.
+- **Likes**: 
 
 ## Getting Started
 
@@ -24,7 +25,7 @@ To run this project locally, ensure you have the following installed:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/hair-salon-spa-app.git
+    git clone https://github.com/IIvanina/React-Project
     ```
 
 2. **Install dependencies**:
