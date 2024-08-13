@@ -47,12 +47,14 @@ export default function Services() {
                         >
                             <div className="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
                                 <div className="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>
-                                    <img className="img-fluid" src={`src/assets/img/${service.toLowerCase().replace(' ', '-')}.png`} alt={`${service}`} />
+                                    <img 
+                                       className="img-fluid" src={`img/${service.toLowerCase().replace(' ', '-')}.png`} 
+                                       alt={`${service}`} />
                                 </div>
                                 <div className="ps-4">
                                     <h3 className="text-uppercase mb-3">{service}</h3>
                                     <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-                                    <span className="text-uppercase text-primary">From $15</span>
+                                    {/* <span className="text-uppercase text-primary">From $15</span> */}
                                     <div>
                                         
                                         <span style={{color: 'yellow'}}>{likes[service]} Likes</span>
