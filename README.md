@@ -10,7 +10,7 @@ Welcome to the Haircut SPA App, a single-page application (SPA) designed for man
 - **Service Reservation**: Reserve a date and time for any of the services.
 - **Manage Reservations**: Edit or delete your existing reservations easily.
 - **Comments**: Leave feedback on your bookings for future reference.
-- **Likes**: 
+- **Likes**: Likes: Users can like services from their reservations. Each user can add only one like to a reservation or service, which is displayed in both the reservation and service details.
 
 ## Getting Started
 
@@ -32,7 +32,7 @@ To run this project locally, ensure you have the following installed:
     ```bash
     cd client
     npm install
-    npm build
+    npm run build
     npm run dev
     ```
 
