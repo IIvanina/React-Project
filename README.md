@@ -54,6 +54,14 @@ To run this project locally, ensure you have the following installed:
 4. **Open the app in your browser**:
     Navigate to `http://localhost:5173` to start using the app.
 
+5.## Testing Project
+
+Soft Academy has its own tests to ensure a more reliable and secure platform operation. To run them, execute the following command from the main directory :
+
+  ```bash
+    npm test
+  ```
+
 ## Usage
 
 ### Browsing Services
