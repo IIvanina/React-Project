@@ -10,7 +10,7 @@ Welcome to the Haircut SPA App, a single-page application (SPA) designed for man
 - **React Calendar:** Integrated calendar for easy booking management.
 - **Fire-base:** Providing a real-time database service.
 - **React Router DOM:** Declarative routing for React.js.
-- 
+  
 ## Features
 
 - **Browse Services**: Explore a list of 6 different hair salon services offered.
