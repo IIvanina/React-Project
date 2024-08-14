@@ -48,7 +48,7 @@ export const AuthProvider = ({
 
             closeModal();
 
-            navigate(`/calendar/${result.username}`);
+            navigate(`/calendar/${result.name}`);
 
         } catch (error) {
             console.error("Registration failed", error);
@@ -75,7 +75,7 @@ export const AuthProvider = ({
         errorMessage,
         userId: auth._id,
         email: auth.email,
-        username: auth.username || auth.email,
+        username: auth.name || auth.email,
         isAuthenticated: !!auth.accessToken,
     };
 

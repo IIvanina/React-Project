@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/data';
+const baseUrl = `${import.meta.env.VITE_API_URL}/data`;
 
 const getToken = () => {
     const token = localStorage.getItem('accessToken');

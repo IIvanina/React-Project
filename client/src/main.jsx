@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '/src/assets/css/style.css';
+import '/public/assets/css/style.css';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

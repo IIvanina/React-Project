@@ -87,7 +87,7 @@ const SignIn = forwardRef((props, ref) => {
                     </Button>
                 </Form>
                 <div>
-                    <p>OR</p>
+                    <p className='mt-5'>OR</p>
                     <p>
                         <Link 
                             to={Path.Register} 

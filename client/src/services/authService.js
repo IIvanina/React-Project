@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/users';
+const baseUrl = `${import.meta.env.VITE_API_URL}/users`
 
 export const login = async (email, password) => {
     const response = await fetch(`${baseUrl}/login`, {
@@ -10,19 +10,18 @@ export const login = async (email, password) => {
     });
 
     if (!response.ok) {
-        // Handle non-200 responses
         const errorMessage = await response.text();
         throw new Error(`Error ${response.status}: ${errorMessage}`);
     }
 
     const result = await response.json();
-    localStorage.setItem('accessToken', result.accessToken); // Store the token
+    localStorage.setItem('accessToken', result.accessToken); 
     return result;
 }
 
 export const register = async (email, password, name) => {
     try {
-        const response = await fetch('http://localhost:3030/users/register', {
+        const response = await fetch(`${baseUrl}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +58,7 @@ export const logout = async () => {
         });
 
         if (response.status === 204) {
-            localStorage.removeItem('accessToken'); // Clear the token from local storage
+            localStorage.removeItem('accessToken'); 
             console.log("Token removed from local storage.");
             return {}; 
         } else {
