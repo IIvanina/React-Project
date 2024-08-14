@@ -13,17 +13,11 @@ import BookingCalendar from "./components/BookingCalendar.jsx";
 import MyBookings from "./components/MyBookings.jsx";
 import Logout from "./components/Logout.jsx";
 import AuthGuard from "./components/guards/AuthGuard.jsx";
-import BookingDetails from "./components/BookingDetails.jsx"; // Ensure correct import
+import BookingDetails from "./components/BookingDetails.jsx"; 
 import Registration from "./components/Registration.jsx";
-import { useEffect } from "react";
+
 
 function App() {
-    
-    // useEffect(() => {
-    //    fetch(`${import.meta.env.VITE_API_URL}`)
-    //       .then((res) => res.json())
-    //       .then(result => result)
-    // })
 
     return (
         <AuthProvider>

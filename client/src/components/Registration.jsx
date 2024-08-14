@@ -72,9 +72,9 @@ const Registration = forwardRef((props, ref) => {
                             <Form.Control
                                 required
                                 type="text"
-                                id="name"
+                                id={RegisterFormKeys.Name}
                                 placeholder="Name"
-                                name="name"
+                                name={RegisterFormKeys.Name}
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Name]}
                                 isInvalid={!!errors.name}
@@ -88,9 +88,9 @@ const Registration = forwardRef((props, ref) => {
                             <Form.Control
                                 required
                                 type="email"
-                                id="email"
+                                id={RegisterFormKeys.Email}
                                 placeholder="Email"
-                                name="email"
+                                name={RegisterFormKeys.Email}
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Email]}
                                 isInvalid={!!errors.email}
@@ -105,9 +105,9 @@ const Registration = forwardRef((props, ref) => {
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"
-                                id="password"
+                                id={RegisterFormKeys.Password}
                                 placeholder="Password"
-                                name="password"
+                                name={RegisterFormKeys.Password}
                                 onChange={onChange}
                                 value={values[RegisterFormKeys.Password]}
                                 isInvalid={!!errors.password}

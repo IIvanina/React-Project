@@ -43,7 +43,7 @@ export default function BookingCalendar() {
     const navigate = useNavigate();
     const location = useLocation();
     const initialBooking = location.state || null;
-    console.log(initialBooking)
+    // console.log(initialBooking)
     const { username } = useParams();
     
 
@@ -61,7 +61,7 @@ export default function BookingCalendar() {
         bookingId: initialBooking ? initialBooking._id : null,
     };
 
-    console.log(initialState.selectedDate)    
+    // console.log(initialState.selectedDate)    
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -74,7 +74,7 @@ export default function BookingCalendar() {
             dispatch({ type: 'SET_LOADING', payload: true });
             try {
 
-                console.log(state.selectedDate)
+                // console.log(state.selectedDate)
                 const result = await bookingService.getBookingsForDate(state.selectedDate);
                 const booked = result.map(booking => booking.time);
 
@@ -177,7 +177,7 @@ export default function BookingCalendar() {
                     <div className={styles.slots}>
                         {timeSlots.map((slot) => (
                             <span key={slot}>
-                                <button
+                                <button id={slot}
                                     onClick={() => bookSlot(slot)}
                                     disabled={state.bookedSlots.includes(slot)}
                                 >

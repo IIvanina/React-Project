@@ -26,7 +26,7 @@ export const AuthProvider = ({
 
             closeModal();
 
-            navigate(`/calendar/${result.username}`);
+            navigate(`/calendar/${result.name}`);
 
         } catch (error) {
             // console.error("Login failed", error);
