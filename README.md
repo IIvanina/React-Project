@@ -2,6 +2,15 @@
 
 Welcome to the Haircut SPA App, a single-page application (SPA) designed for managing bookings and services at a hair salon. This app allows users to browse available services, make reservations, and manage their bookings seamlessly.
 ## Visit the live site: [Haircut](https://react-project-5a2ef.web.app/)
+
+## Technologies Used
+
+- **React/Vite:** A JavaScript library for building user interfaces.
+- **React Bootstrap:** A popular React UI framework.
+- **React Calendar:** Integrated calendar for easy booking management.
+- **Fire-base:** Providing a real-time database service.
+- **React Router DOM:** Declarative routing for React.js.
+  
 ## Features
 
 - **Browse Services**: Explore a list of 6 different hair salon services offered.
@@ -44,6 +53,14 @@ To run this project locally, ensure you have the following installed:
 
 4. **Open the app in your browser**:
     Navigate to `http://localhost:5173` to start using the app.
+
+5.## Testing Project
+
+Soft Academy has its own tests to ensure a more reliable and secure platform operation. To run them, execute the following command from the main directory :
+
+  ```bash
+    npm test
+  ```
 
 ## Usage
 
