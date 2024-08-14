@@ -1,7 +1,7 @@
 # Haircut SPA App
 
 Welcome to the Haircut SPA App, a single-page application (SPA) designed for managing bookings and services at a hair salon. This app allows users to browse available services, make reservations, and manage their bookings seamlessly.
-
+## Visit the live site: [Haircut](https://react-project-5a2ef.web.app/)
 ## Features
 
 - **Browse Services**: Explore a list of 6 different hair salon services offered.
