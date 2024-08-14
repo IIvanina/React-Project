@@ -3,6 +3,7 @@ const Path = {
     Calendar: '/calendar/:username',
     Bookings: '/bookings/:username',
     Services: '/services',
+    Contacts: '/contacts',
     Logout: '/logout',
     Login: '/login',
     Register: '/registration'

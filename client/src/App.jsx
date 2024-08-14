@@ -17,6 +17,7 @@ import BookingDetails from "./components/BookingDetails.jsx";
 import Registration from "./components/Registration.jsx";
 
 
+
 function App() {
 
     return (
@@ -25,7 +26,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path={Path.Home} element={<About />} />
-                    <Route path={Path.Services} element={<Services />} />
+                    <Route path={Path.Services} element={<Services />} />                    
                     <Route path={Path.Login} element={<SignIn />} />
                     <Route path={Path.Register} element={<Registration />} />
                     <Route path={Path.Logout} element={<Logout />} />
