@@ -4,6 +4,7 @@ export const login = async (email, password) => {
     const response = await fetch(`${baseUrl}/login`, {
         method: 'POST',
         headers: {
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password })
@@ -24,6 +25,7 @@ export const register = async (email, password, name) => {
         const response = await fetch(`${baseUrl}/register`, {
             method: 'POST',
             headers: {
+                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password, name }),
@@ -52,6 +54,7 @@ export const logout = async () => {
         const response = await fetch(`${baseUrl}/logout`, {
             method: 'GET',
             headers: {
+                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 'X-Authorization': token
             }
