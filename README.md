@@ -7,7 +7,7 @@ Welcome to the Haircut SPA App, a single-page application (SPA) designed for man
 
 - **React/Vite:** A JavaScript library for building user interfaces.
 - **React Bootstrap:** A popular React UI framework.
-- **React Calendar:**
+- **React Calendar:** Integrated calendar for easy booking management.
 - **Fire-base:** Providing a real-time database service.
 - **React Router DOM:** Declarative routing for React.js.
 - 
