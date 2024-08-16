@@ -31,7 +31,7 @@ export default function BookingList({
                 <li>Hour: {time}</li>
             </ul>
             <Link to={`/booking/${_id}`}>
-                <button>Details</button>
+                <button className='btn btn-warning'>Details</button>
             </Link>
         </div>
     );

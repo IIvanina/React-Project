@@ -10,7 +10,7 @@ const getToken = () => {
 };
 
 export const getLikes = async (service) => {
-    console.log(service)
+    
     try {
         const response = await fetch(`${baseUrl}?where=service%3D%22${service}%22`);
         if (!response.ok) {

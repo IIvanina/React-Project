@@ -19,8 +19,6 @@ export const AuthProvider = ({
             const result = await authService.login(values.email, values.password);
 
             setAuth(result);
-            console.log(`Login user Id ${result._id}`);
-            console.log(`Login token ${result.accessToken}`);
             localStorage.setItem('accessToken', result.accessToken);
             localStorage.setItem('userId', result._id);
 
@@ -29,7 +27,7 @@ export const AuthProvider = ({
             navigate(`/calendar/${result.name}`);
 
         } catch (error) {
-            // console.error("Login failed", error);
+            
             if (error.message.includes('403')) {
                 throw new Error("Login or password don't match");
             } else {
